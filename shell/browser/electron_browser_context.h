@@ -127,9 +127,6 @@ class ElectronBrowserContext
   CookieChangeNotifier* cookie_change_notifier() const {
     return cookie_change_notifier_.get();
   }
-  ProxyConfigMonitor* proxy_config_monitor() {
-    return proxy_config_monitor_.get();
-  }
   PrefService* prefs() const { return prefs_.get(); }
   void set_in_memory_pref_store(ValueMapPrefStore* pref_store) {
     in_memory_pref_store_ = pref_store;
@@ -177,10 +174,6 @@ class ElectronBrowserContext
   std::unique_ptr<MediaDeviceIDSalt> media_device_id_salt_;
   scoped_refptr<ResolveProxyHelper> resolve_proxy_helper_;
   scoped_refptr<storage::SpecialStoragePolicy> storage_policy_;
-
-  // Tracks the ProxyConfig to use, and passes any updates to a NetworkContext
-  // ProxyConfigClient.
-  std::unique_ptr<ProxyConfigMonitor> proxy_config_monitor_;
 
   std::unique_ptr<predictors::PreconnectManager> preconnect_manager_;
 
