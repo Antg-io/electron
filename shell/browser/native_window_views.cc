@@ -1059,9 +1059,7 @@ void NativeWindowViews::AddBrowserView(NativeBrowserView* view) {
   if (!content_view())
     return;
 
-  if (!view) {
-    return;
-  }
+  CHECK(view);
 
   add_browser_view(view);
 
@@ -1073,12 +1071,15 @@ void NativeWindowViews::RemoveBrowserView(NativeBrowserView* view) {
   if (!content_view())
     return;
 
-  if (!view) {
-    return;
+  CHECK(view);
+
+  // Removing child view from a closed window would cause memory
+  // corruption in views.
+  if (!IsClosed()) {
+    content_view()->RemoveChildView(
+        view->GetInspectableWebContentsView()->GetView());
   }
 
-  content_view()->RemoveChildView(
-      view->GetInspectableWebContentsView()->GetView());
   remove_browser_view(view);
 }
 
